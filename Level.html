@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Level Income</title>
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: Arial, sans-serif;
+}
+
+body{
+  background:#eef6ff;
+  overflow-x:hidden;
+}
+
+/* Header */
+.header{
+  background:linear-gradient(135deg,#3b82f6,#22c1c3);
+  padding:30px 15px 40px;
+  text-align:center;
+  color:#fff;
+}
+
+.header h1{
+  font-size:36px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.header p{
+  margin-top:10px;
+  font-size:14px;
+  opacity:0.9;
+}
+
+/* CURRENT LEVEL DISPLAY */
+.current-level-display {
+  text-align:center;
+  margin: 20px 0;
+  font-size:22px;
+  font-weight:700;
+  color:#1e3a8a;
+  background: linear-gradient(135deg,#93c5fd,#60a5fa);
+  padding:15px 0;
+  border-radius:15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Card */
+.card{
+  background:#fff;
+  margin:-25px 10px 20px;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  overflow:hidden;
+}
+
+/* Table */
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+.table thead{
+  background:#3b82f6;
+  color:#fff;
+}
+
+.table th,
+.table td{
+  padding:12px 6px;
+  text-align:center;
+  border-bottom:1px solid #e6eef8;
+}
+
+.table th{
+  font-weight:700;
+  font-size:12px;
+}
+
+.table tbody tr:nth-child(even){
+  background:#f7fbff;
+}
+
+/* Highlight current level */
+.table tbody tr.current-level {
+  background: #d1fae5 !important;
+  color: #065f46;
+  font-weight: bold;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+.level{
+  font-weight:700;
+  color:#1e3a8a;
+}
+
+/* Footer spacing */
+.footer-space{
+  height:30px;
+}
+
+/* === Swipe Levels Styles === */
+.swipe-container {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #1e3a8a, #3b82f6, #22c1c3);
+  transition: left 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  color: #fff;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.swipe-container.active {
+  left: 0;
+}
+
+.swipe-level {
+  background: rgba(255,255,255,0.95);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  text-align: center;
+  width: 95%;
+  max-width: 700px;
+  color: #1e3a8a;
+}
+
+.swipe-level img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.swipe-level h2 {
+  font-size:36px;
+  font-weight:900;
+  margin-bottom: 20px;
+  color:#0f172a;
+}
+
+.swipe-level p {
+  margin: 12px 0;
+  font-size:18px;
+  line-height:1.6;
+}
+
+.swipe-level .price {
+  font-size:26px;
+  font-weight:800;
+  margin: 15px 0;
+  color: #3b82f6;
+}
+
+.swipe-level .note {
+  font-size:16px;
+  color:#334155;
+  text-align:justify;
+  margin-top:20px;
+}
+
+/* Join Now Button */
+.join-btn {
+  margin-top: 25px;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  border:none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.join-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+
+/* Swipe hint */
+.swipe-hint {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size:16px;
+  color:#000; /* black text */
+  font-weight:600;
+}
+
+.payment-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+.payment-popup.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.payment-popup.active .popup-content {
+  transform: scale(1);
+}
+
+.popup-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+  .level-back-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  background:#eef6ff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.level-back-header i{
+  font-size:30px;
+  font-weight:900;
+  cursor:pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* Press down effect */
+.level-back-header i:active{
+  transform: translateY(3px) scale(0.95);
+  opacity: 0.7;
+}
+  
+  /* Remove mobile tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.level-back-header i {
+  -webkit-tap-highlight-color: transparent; /* specifically for the back arrow */
+  -webkit-touch-callout: none; /* prevents long press menu on iOS */
+  -webkit-user-select: none; /* prevents selection highlight */
+}
+  
+.yes-btn, .no-btn {
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.yes-btn { background: #10b981; color: #fff; }
+.no-btn { background: #ef4444; color: #fff; }
+</style>
+  <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Back Header -->
+<div class="level-back-header">
+  <i class="fa-solid fa-chevron-left" id="levelBack"></i>
+</div>
+  
+<!-- ORIGINAL TABLE CODE -->
+<div class="header">
+  <h1>NFN</h1>
+  <p>Employee Level Income Details (NGN)</p>
+</div>
+  
+<div class="card">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Employee Level</th>
+        <th>Margin Rate</th>
+        <th>Daily Income</th>
+        <th>Total Daily Tasks</th>
+        <th>Referral Income</th>
+        <th>Monthly Income</th>
+        <th>Annual Income</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="current-level">
+        <td class="level">Temporary</td>
+        <td>—</td>
+        <td>600</td>
+        <td>5</td>
+        <td>120</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="level">V1</td>
+        <td>30,000</td>
+        <td>200</td>
+        <td>30</td>
+        <td>1,000</td>
+        <td>30,000</td>
+        <td>360,00</td>
+      </tr>
+      <tr>
+        <td class="level">V2</td>
+        <td>60,000</td>
+        <td>400</td>
+        <td>60</td>
+        <td>2,000</td>
+        <td>60,000</td>
+        <td>720,000</td>
+      </tr>
+      <tr>
+        <td class="level">V3</td>
+        <td>160,000</td>
+        <td>800</td>
+        <td>90</td>
+        <td>5,000</td>
+        <td>120,000</td>
+        <td>1,440,000</td>
+      </tr>
+      <tr>
+        <td class="level">V4</td>
+        <td>450,000</td>
+        <td>16,000</td>
+        <td>180</td>
+        <td>10,000</td>
+        <td>480,000</td>
+        <td>5,900,000</td>
+      </tr>
+      <tr>
+        <td class="level">V5</td>
+        <td>1,162,000</td>
+        <td>32,000</td>
+        <td>360</td>
+        <td>20,000</td>
+        <td>1,248,000</td>
+        <td>15,184,000</td>
+      </tr>
+      <tr>
+        <td class="level">V6</td>
+        <td>2,925,000</td>
+        <td>64,000</td>
+        <td>520</td>
+        <td>30,000</td>
+        <td>3,366,000</td>
+        <td>40,953,000</td>
+      </tr>
+      <tr>
+        <td class="level">V7</td>
+        <td>5,720,000</td>
+        <td>128,000</td>
+        <td>150</td>
+        <td>50,000</td>
+        <td>6,660,000</td>
+        <td>81,030,000</td>
+      </tr>
+      <tr>
+        <td class="level">V8</td>
+        <td>11,520,000</td>
+        <td>256,000</td>
+        <td>190</td>
+        <td>100,000</td>
+        <td>14,364,000</td>
+        <td>174,762,000</td>
+      </tr>
+      <tr>
+        <td class="level">V9</td>
+        <td>20,700,000</td>
+        <td>862,500</td>
+        <td>250</td>
+        <td>500,000</td>
+        <td>25,875,000</td>
+        <td>314,812,500</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="footer-space"></div>
+
+  <!-- Payment Confirmation Popup -->
+<div id="paymentPopup" class="payment-popup">
+  <div class="popup-content">
+    <p id="popupMessage"></p>
+    <div class="popup-buttons">
+      <button id="yesBtn" class="yes-btn">Yes</button>
+      <button id="noBtn" class="no-btn">No</button>
+    </div>
+  </div>
+</div>
+  
+  <!-- Add this red popup somewhere in your body -->
+<div id="insufficientPopup" class="payment-popup">
+  <div class="popup-content" style="background:#f87171;">
+    <p id="insufficientMessage" style="color:#fff; font-weight:bold;"></p>
+    <div class="popup-buttons">
+      <button id="insufficientOk" class="no-btn">OK</button>
+    </div>
+  </div>
+</div>
+  
+  <!-- Green success popup -->
+<div id="successPopup" class="payment-popup">
+  <div class="popup-content" style="background:#10b981;">
+    <p id="successMessage" style="color:#fff; font-weight:bold;"></p>
+    <div class="popup-buttons">
+      <button id="successOk" class="yes-btn">OK</button>
+    </div>
+  </div>
+</div>
+  
+<!-- SWIPE LEVEL CONTAINER -->
+<div class="swipe-container" id="swipeContainer">
+  <div class="swipe-level" id="swipeLevel">
+    <!-- Level info will be injected here -->
+  </div>
+</div>
+<div class="swipe-hint">Swipe right to see next level, swipe left to go back</div>
+
+<script>
+// LEVEL DATA WITH TEMPORARY FIRST AND IMAGES
+const levels = [
+  {name:"Temporary", margin:"—", daily:"600", tasks:"5", commission:"120", monthly:"—", annual:"—", note:"Temporary level is perfect for beginners to familiarize themselves with basic tasks and workflow. It provides minimal commitment with a hands-on introduction to daily responsibilities and task handling.", image:"https://img.icons8.com/color/96/000000/blue-circle.png"},
+  {name:"Level 1", margin:"18,000", daily:"600", tasks:"5", commission:"120", monthly:"18,000", annual:"216,000", note:"Level 1 is ideal for newcomers who want to understand the fundamentals of the workflow. It offers a consistent income stream while allowing users to learn task management, basic commissions, and daily operational responsibilities. This level is foundational for professional growth and financial discipline.", image:"https://img.icons8.com/color/96/000000/silver-medal.png"},
+  {name:"Level 2", margin:"50,400", daily:"1,680", tasks:"10", commission:"168", monthly:"50,400", annual:"604,800", note:"Level 2 is designed for employees who have grasped the basics and are ready to expand their efficiency. The increased margin rate and task volume develop analytical and strategic skills. This level fosters a professional approach to time management, productivity, and client engagement.", image:"https://img.icons8.com/color/96/000000/bronze-medal.png"},
+  {name:"Level 3", margin:"151,200", daily:"5,040", tasks:"20", commission:"252", monthly:"151,200", annual:"1,814,400", note:"At Level 3, the focus is on scaling operations, improving task accuracy, and maximizing income potential. Professionals at this stage are expected to take initiative, contribute innovative solutions, and enhance their strategic decision-making skills, preparing for managerial responsibilities.", image:"https://img.icons8.com/color/96/000000/gold-medal.png"},
+  {name:"Level 4", margin:"448,000", daily:"16,000", tasks:"50", commission:"320", monthly:"480,000", annual:"5,840,000", note:"Level 4 provides advanced earning opportunities while emphasizing leadership, project oversight, and team collaboration. Employees are expected to mentor others, optimize workflow, and demonstrate significant business acumen. This level prepares individuals for senior and executive-level roles.", image:"https://img.icons8.com/color/96/000000/diamond.png"},
+  {name:"Level 5", margin:"1,162,000", daily:"41,600", tasks:"80", commission:"520", monthly:"1,248,000", annual:"15,184,000", note:"Level 5 is reserved for high-performing individuals who consistently achieve exceptional results. It enhances strategic thinking, decision-making, and complex problem-solving abilities. Employees at this level are key drivers of growth, innovation, and profitability.", image:"https://img.icons8.com/color/96/000000/golden-trophy.png"},
+  {name:"Level 6", margin:"2,925,000", daily:"112,200", tasks:"110", commission:"1,020", monthly:"3,366,000", annual:"40,953,000", note:"Level 6 represents elite performance, with responsibilities that include managing multiple projects, optimizing large-scale operations, and mentoring high-potential employees. Professionals here set benchmarks for efficiency and drive organizational success.", image:"https://img.icons8.com/color/96/000000/crown.png"},
+  {name:"Level 7", margin:"5,720,000", daily:"222,000", tasks:"150", commission:"1,480", monthly:"6,660,000", annual:"81,030,000", note:"Level 7 is for top-tier employees with comprehensive mastery of operations and strategic leadership. This level emphasizes innovation, cross-departmental collaboration, and measurable impact on company performance. High-level decision-making and mentoring define this stage.", image:"https://img.icons8.com/color/96/000000/diamond-crown.png"},
+  {name:"Level 8", margin:"11,520,000", daily:"478,800", tasks:"190", commission:"2,520", monthly:"14,364,000", annual:"174,762,000", note:"Level 8 represents advanced strategic leadership, overseeing critical operations and ensuring the organization's long-term sustainability. Employees focus on executive-level decision-making, optimization of large teams, and creating frameworks for high performance and profitability.", image:"https://img.icons8.com/color/96/000000/gold-medal.png"},
+  {name:"Level 9", margin:"20,700,000", daily:"862,500", tasks:"250", commission:"3,450", monthly:"25,875,000", annual:"314,812,500", note:"Level 9 is the pinnacle of professional achievement, reserved for visionary leaders who drive transformative growth. Responsibilities include company-wide strategy, high-stakes decision-making, mentoring future leaders, and achieving exceptional organizational results. The role demands exemplary leadership, foresight, and unparalleled performance.", image:"https://img.icons8.com/color/96/000000/golden-trophy.png"}
+];
+
+let currentLevel = 0;
+const swipeContainer = document.getElementById("swipeContainer");
+const swipeLevel = document.getElementById("swipeLevel");
+
+function showLevel(index){
+  if(index < 0 || index >= levels.length) return;
+  const level = levels[index];
+  swipeLevel.innerHTML = `
+    <img src="${level.image}" alt="${level.name} icon"/>
+    <h2>${level.name}</h2>
+    <p><strong>Margin Rate:</strong> ${level.margin}</p>
+    <p><strong>Daily Income:</strong> ${level.daily}</p>
+    <p><strong>Total Daily Tasks:</strong> ${level.tasks}</p>
+    <p><strong>Commission / Task:</strong> ${level.commission}</p>
+    <p class="price"><strong>Monthly Income:</strong> ${level.monthly} | <strong>Annual Income:</strong> ${level.annual}</p>
+    <p class="note">${level.note}</p>
+    ${level.name !== "Temporary"
+  ? `<button class="join-btn" onclick="confirmPayment('${level.name.replace('Level ', 'V')}')">
+       Join Now
+     </button>`
+  : ''}
+  `;
+  swipeContainer.classList.add("active");
+}
+
+ const paymentPopup = document.getElementById("paymentPopup");
+const popupMessage = document.getElementById("popupMessage");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+  
+  // LEVEL RANKING (order matters)
+const levelRank = {
+  Temporary: 0,
+  V1: 1,
+  V2: 2,
+  V3: 3,
+  V4: 4,
+  V5: 5,
+  V6: 6,
+  V7: 7,
+  V8: 8,
+  V9: 9
+};
+  
+// Swipe detection
+let startX = 0;
+let endX = 0;
+
+document.addEventListener('touchstart', e => {
+  startX = e.changedTouches[0].screenX;
+});
+
+  let userCurrentLevel = localStorage.getItem("userCurrentLevel") || "Temporary";
+  
+  const levelPrices = {
+  V1: 18000,
+  V2: 50400,
+  V3: 151200,
+  V4: 448000,
+  V5: 1162000,
+  V6: 2925000,
+  V7: 5720000,
+  V8: 11520000,
+  V9: 20700000
+};
+  // Example: assume wallet balance is accessible globally
+let userBalance = 5000000; // replace this with your actual wallet code, maybe from window.localStorage or API
+
+  const insufficientPopup = document.getElementById("insufficientPopup");
+const insufficientMessage = document.getElementById("insufficientMessage");
+const insufficientOk = document.getElementById("insufficientOk");
+
+const successPopup = document.getElementById("successPopup");
+const successMessage = document.getElementById("successMessage");
+const successOk = document.getElementById("successOk");
+
+   function confirmPayment(levelCode) {
+  const price = levelPrices[levelCode];
+     
+  // 🔴 Block downgrade
+  if (levelRank[levelCode] <= levelRank[userCurrentLevel]) {
+    insufficientMessage.textContent =
+      "You cannot join a lower or the same level.";
+    insufficientPopup.classList.add("active");
+    insufficientOk.onclick = () => insufficientPopup.classList.remove("active");
+    return;
+  }
+
+  // 🔴 Insufficient balance
+  if (userBalance < price) {
+    insufficientMessage.textContent =
+      `Insufficient balance! You need ₦${price.toLocaleString()}.`;
+    insufficientPopup.classList.add("active");
+    insufficientOk.onclick = () => insufficientPopup.classList.remove("active");
+    return;
+  }
+
+  // ⚪ Confirm
+  popupMessage.textContent =
+    `Do you want to join ${levelCode} for ₦${price.toLocaleString()}?`;
+  paymentPopup.classList.add("active");
+
+  yesBtn.onclick = () => {
+    paymentPopup.classList.remove("active");
+
+    userBalance -= price;
+    userCurrentLevel = levelCode;
+    localStorage.setItem("userCurrentLevel", levelCode);
+
+    successMessage.textContent = `You are now on ${levelCode}`;
+    successPopup.classList.add("active");
+    successOk.onclick = () => successPopup.classList.remove("active");
+
+    const oldRow = document.querySelector(".current-level");
+    if (oldRow) oldRow.classList.remove("current-level");
+
+    const newRow = [...document.querySelectorAll(".table tbody tr")]
+      .find(tr => tr.querySelector(".level").textContent === levelCode);
+
+    if (newRow) newRow.classList.add("current-level");
+
+    swipeContainer.classList.remove("active");
+  };
+
+  noBtn.onclick = () => paymentPopup.classList.remove("active");
+}
+
+  
+document.addEventListener('touchend', e => {
+  endX = e.changedTouches[0].screenX;
+  let diff = endX - startX;
+
+  if(diff > 50){ // swipe right -> next level
+    if(currentLevel < levels.length){
+      showLevel(currentLevel);
+      currentLevel++;
+    }
+  } else if(diff < -50){ // swipe left -> previous level
+    if(currentLevel > 1){
+      currentLevel -= 2;
+      showLevel(currentLevel);
+      currentLevel++;
+    } else if(currentLevel === 1){
+      currentLevel = 0;
+      swipeContainer.classList.remove("active");
+    }
+  }
+});
+  // Restore current level highlight on page load
+window.addEventListener("load", () => {
+  const savedLevel = localStorage.getItem("userCurrentLevel") || "Temporary";
+
+  const oldRow = document.querySelector(".current-level");
+  if (oldRow) oldRow.classList.remove("current-level");
+
+  const row = Array.from(document.querySelectorAll(".table tbody tr"))
+    .find(tr => tr.querySelector(".level").textContent === savedLevel);
+
+  if (row) row.classList.add("current-level");
+
+  userCurrentLevel = savedLevel;
+});
+  // BACK ARROW — GO TO MAIN PAGE
+document.getElementById("levelBack").addEventListener("click", () => {
+  window.location.href = "my project.html";
+});
+</script>
+
+</body>
+</html>
