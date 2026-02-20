@@ -109,11 +109,11 @@ input[type=file]{display:none}
 
 <div class="app">
 
-  <!-- Header -->
-  <div class="header">
-    <i class="fa fa-arrow-left back" onclick="history.back()"></i>
-    <h3>NIN Verification</h3>
-  </div>
+ <!-- Header -->
+<div class="header">
+  <i class="fa-solid fa-chevron-left back" id="levelBack"></i>
+  <h3>NIN Verification</h3>
+</div>
 
   <!-- Card -->
   <div class="card">
@@ -188,7 +188,9 @@ function checkReady(){
 submitBtn.onclick = ()=>{
   alert("NIN uploaded successfully ✔\nVerification in progress.");
 };
+  document.getElementById('levelBack').onclick = () => {
+  history.back();
+};
 </script>
-
 </body>
 </html>

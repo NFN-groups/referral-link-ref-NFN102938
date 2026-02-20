@@ -138,14 +138,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   .nav-item.active {color:#FB8C00; font-weight:bold;}
   .page {display:none; padding:15px; font-size:14px;}
   .page.active {display:block;}
-  .withdraw-box {background:#fff; padding:15px; border-radius:12px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-  .withdraw-box label {font-size:13px; font-weight:bold; display:block; margin-top:12px;}
-  .withdraw-input {width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:8px; font-size:13px;}
-  .amounts {display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;}
+   .amounts {display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;}
   .amount-btn {flex:1 1 30%; padding:6px; text-align:center; border:1px solid #ccc; border-radius:8px; cursor:pointer; font-size:11px;}
   .amount-btn.active {background:#00BCD4; color:#fff; border:none;}
-  .withdraw-box button {width:100%; padding:12px; background:#00BCD4; color:white; font-size:15px; border:none; border-radius:8px; cursor:pointer; margin-top:15px;}
-  .task-header {background:url('https://i.ibb.co/pXcc70f/stars-bg.jpg') no-repeat center/cover; padding:20px; border-radius:12px; color:white; text-align:center; margin-bottom:15px;}
+    .task-header {background:url('https://i.ibb.co/pXcc70f/stars-bg.jpg') no-repeat center/cover; padding:20px; border-radius:12px; color:white; text-align:center; margin-bottom:15px;}
   .task-list {display:flex; flex-direction:column; gap:12px;}
   .task-card {background:#ff; border-radius:12px; display:flex; align-items:center; padding:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
   .task-card img {width:80px; height:50px; border-radius:8px; margin-right:10px; object-fit:cover;}
@@ -211,7 +207,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         </div>
         <div class="grid-item" onclick="openPage('companyActivities')">
   <img src="https://img.icons8.com/ios-filled/50/000000/conference.png"/><br>Company Activities
-</div>
+</div> 
         <div class="grid-item"><img src="https://img.icons8.com/ios-filled/50/000000/news.png"/><br>News Events</div>
         <div class="grid-item" onclick="openPage('memberBenefits')">
   <img src="https://img.icons8.com/ios-filled/50/000000/vip.png"/><br>Member Benefits
@@ -225,7 +221,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
   <!-- 🏎️ Advertising Display Area (Adsterra Integration) -->
 <div class="advertising-section" style="margin:15px 10px;">
-  <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); overflow:hidden; position:relative;">
+  <div style="background:#fff; border-radius:12px; box-||:0 2px 8px rgba(0,0,0,0.1); overflow:hidden; position:relative;">
     <div style="padding:10px; font-weight:bold; color:#333; border-bottom:1px solid #eee;">
       Advertising Display Area
     </div>
@@ -297,14 +293,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <div class="stat-row"><span>Today's mission income</span><span id="todayIncome">0</span></div>
         <div class="stat-row"><span>This month's mission income</span><span id="monthIncome">0</span></div>
         <div class="stat-row"><span>Total revenue</span><span id="revenue">0</span></div>
-        <div class="stat-row"><span>Total withdrawals</span><span id="withdrawals">0</span></div>
         <div class="stat-row"><span>Wallet Balance</span><span id="balance">0</span></div>
         <div class="stat-row"><span>Profit</span><span id="profit">0</span></div>
       </div>
       <div class="buttons">
         <button class="recharge" onclick="window.location.href='recharge.html'">Recharge</button>
-        <button class="withdrawal" onclick="openPage('withdrawPage')">Withdrawal</button>
-      </div>
+         <button class="withdrawal" onclick="window.location.href='withdrawal.html'">Withdrawal</button>
+           </div>
       <div class="list">
         <div class="list-item small" onclick="openPage('companyIntro')"><span><img src="https://img.icons8.com/ios-filled/50/000000/company.png"/>Company Introduction</span>➔</div>
         <div class="list-item small" onclick="window.location.href='personal information.html'">
@@ -343,7 +338,7 @@ function goToDownloadApp() {
 <div id="task" class="tab" style="display:none;">
   <div class="phone">
     <div class="topbar">
-      <div class="back" onclick="window.location.href='my project.html'">
+      <div class="back" onclick="goBackFromTask()">
         <svg width="18" height="14" viewBox="0 0 24 24" fill="none">
           <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -366,6 +361,10 @@ function goToDownloadApp() {
      <!-- Level Tab -->
     <div id="level" class="tab" style="display:none;">
 
+<div class="level-back-header">
+  <i class="fa-solid fa-chevron-left" id="levelBack"></i>
+</div>
+      
 <!-- ORIGINAL TABLE CODE -->
 <div class="header">
   <h1>NFN</h1>
@@ -535,7 +534,7 @@ function goToDownloadApp() {
     </svg>
   </div>
 
-  <h2>NFN Group - Company Profile</h2
+  <h2>NFN Group - Company Profile</h2>
       <p><b>NFN Group is one of the world’s most innovative advertising and communications companies.</b></p>
       <p>We specialize in advertising, public relations, digital marketing, brand image, and global communication strategies. Our influence spans multiple industries, from entertainment to technology, ensuring businesses grow with creativity and impact.</p>
       <p>NFN partners with global film and media companies to deliver video promotions and marketing campaigns worldwide. With the rise of 5G and the digital economy, NFN empowers individuals and businesses with smarter, faster, and more inclusive solutions.</p>
@@ -1414,17 +1413,6 @@ document.querySelectorAll(".play-btn").forEach(btn=>{
         }
       }
     }, 1000);
-  });
-});
-
-// withdrawal fee calc (unchanged behaviour)
-document.querySelectorAll('.amount-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const amount=parseInt(btn.innerText.replace(/,/g,''))||0;
-    document.getElementById('withdrawAmount').value = btn.innerText;
-    document.getElementById('handlingFee').innerText = amount ? (amount*0.1).toLocaleString() : '';
   });
 });
 

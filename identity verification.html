@@ -220,6 +220,21 @@ body{background:#000;color:#fff}
   color:#666;
   margin-top:4px;
 }
+    .level-back-header{
+  pointer-events: auto;
+}
+
+.scan-overlay{
+  pointer-events: none;
+}
+
+.scan-overlay button{
+  pointer-events: auto;
+}
+    .level-back-header{
+  z-index: 99999;
+  pointer-events: auto;
+}
 </style>
 </head>
 
@@ -255,6 +270,8 @@ body{background:#000;color:#fff}
     </div>  
   </div>  
 
+    <canvas id="faceCanvas" style="display:none;"></canvas>
+    
   <!-- Selfie -->
   <div class="verify-card">  
     <div class="icon">📷</div>  
@@ -269,9 +286,9 @@ body{background:#000;color:#fff}
 </div>
 
   <div class="level-back-header">
-  <i class="fa-solid fa-chevron-left" id="levelBack"></i>
-</div>
-  
+  <i class="fa-solid fa-chevron-left" id="goBack"></i>
+  </div>
+    
 <!-- PAGE 3 -->
 <div class="page non-doc" id="page3">
   <div class="non-doc-header">← Non-Doc Verification</div>
@@ -343,6 +360,7 @@ const popupBVN = document.getElementById("bvnError");
 
 /* ========= STATE ========= */
 let selectedType = null;
+let cameraStream = null;
 
 /* ========= SELECT CARDS ========= */
 const ninCard = document.getElementById("nin");
@@ -381,7 +399,7 @@ document.getElementById("goNonDoc").onclick = () => {
 
 /* ========= NIN SUBMIT ========= */
 pageNIN.querySelector(".submit-btn").onclick = () => {
-  const nin = pageNIN.querySelector("input").value;
+  const nin = pageNIN.querySelector("input").value.trim();
   if(!/^\d{11}$/.test(nin)){
     popupNIN.style.display = "block";
     setTimeout(() => popupNIN.style.display = "none", 2000);
@@ -392,7 +410,7 @@ pageNIN.querySelector(".submit-btn").onclick = () => {
 
 /* ========= BVN SUBMIT ========= */
 document.getElementById("submitBVN").onclick = () => {
-  const bvn = document.getElementById("bvnInput").value;
+  const bvn = document.getElementById("bvnInput").value.trim();
   if(!/^\d{11}$/.test(bvn)){
     popupBVN.style.display = "block";
     setTimeout(() => popupBVN.style.display = "none", 2000);
@@ -401,7 +419,7 @@ document.getElementById("submitBVN").onclick = () => {
   openFaceScan("bvn");
 };
 
-/* ========= FACE SCAN ========= */
+/* ========= OPEN FACE SCAN ========= */
 async function openFaceScan(type){
   pageNIN.classList.remove("active");
   pageBVN.classList.remove("active");
@@ -409,51 +427,96 @@ async function openFaceScan(type){
 
   faceScan.dataset.from = type;
 
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video:{facingMode:"user"}
-  });
-  document.getElementById("frontCam").srcObject = stream;
+  try{
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:"user" }
+    });
+    document.getElementById("frontCam").srcObject = cameraStream;
+  }catch(err){
+    alert("Camera access denied");
+  }
 }
 
-/* ========= FACE DONE ========= */
+/* ========= FACE CAPTURE ========= */
 document.getElementById("captureFace").onclick = () => {
+  const video = document.getElementById("frontCam");
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  // Capture frame
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // Convert to image
+  const faceImage = canvas.toDataURL("image/jpeg", 0.9);
+
+  // Store image (for upload later)
+  localStorage.setItem("faceImage", faceImage);
+
+  // UI success
   document.getElementById("faceCircle").classList.add("success");
   document.getElementById("faceSuccess").style.display = "block";
 
+  // Stop camera
+  if(cameraStream){
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+
+  // Continue flow
   setTimeout(() => {
-    document.getElementById("frontCam").srcObject.getTracks().forEach(t => t.stop());
     window.location.href =
       faceScan.dataset.from === "bvn"
         ? "bvn-upload.html"
         : "nin-upload.html";
-  }, 1500);
+  }, 1200);
 };
 
-/* ========= BACK ========= */
-document.getElementById("levelBack").onclick = () => {
+/* ========= BACK BUTTON ========= */
+document.getElementById("goBack").onclick = () => {
+
+  // If face scan active
   if(faceScan.classList.contains("active")){
     faceScan.classList.remove("active");
+
+    if(cameraStream){
+      cameraStream.getTracks().forEach(t => t.stop());
+      cameraStream = null;
+    }
+
     faceScan.dataset.from === "bvn"
       ? pageBVN.classList.add("active")
       : pageNIN.classList.add("active");
     return;
   }
+
+  // BVN → Page 2
   if(pageBVN.classList.contains("active")){
     pageBVN.classList.remove("active");
     page2.classList.add("active");
     return;
   }
+
+  // NIN → Page 2
   if(pageNIN.classList.contains("active")){
     pageNIN.classList.remove("active");
     page2.classList.add("active");
     return;
   }
+
+  // Page 2 → Page 1
   if(page2.classList.contains("active")){
     page2.classList.remove("active");
     page1.classList.add("active");
+    return;
   }
+
+  // Exit flow
+  window.location.href = "my project.html";
 };
 </script>
-
 </body>
 </html>
