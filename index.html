@@ -151,21 +151,30 @@ We designed NFN to be user-friendly, safe, and empowering — so you can turn yo
 const checkbox = document.getElementById('agreeCheckbox');
 const continueBtn = document.getElementById('continueBtn');
 
-// Enable button when checkbox is checked
-checkbox.addEventListener('change', function(){
+// Skip page if already agreed
+if (localStorage.getItem('nfnAgreed') === 'true') {
+  window.location.href = 'Splash Screen.html';
+}
+
+// Enable button only if checkbox is checked
+checkbox.addEventListener('change', function() {
   continueBtn.disabled = !this.checked;
 });
 
-// On continue, save agreement to Firestore ONLY
-continueBtn.addEventListener('click', async function(){
+// On clicking Continue, save to Firestore AND localStorage
+continueBtn.addEventListener('click', async function() {
   try {
-    // Save to a fixed document (or generate unique ID if you want multiple users)
+    // Save to Firestore
     await db.collection('agreements').add({
       agreedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    // Continue to splash
+    
+    // Save to localStorage
+    localStorage.setItem('nfnAgreed', 'true');
+    
+    // Go to splash screen
     window.location.href = 'Splash Screen.html';
-  } catch(err) {
+  } catch (err) {
     console.error(err);
     alert("Error saving agreement");
   }
