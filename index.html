@@ -59,7 +59,7 @@
   }
 
   .terms-link {
-    color: #00ffff; /* blue */
+    color: #00ffff; 
     text-decoration: underline;
     cursor: pointer;
   }
@@ -93,6 +93,26 @@
     .btn { font-size:16px; padding:12px 28px; }
   }
 </style>
+
+<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Firebase config (use your own)
+  const firebaseConfig = {
+    apiKey:"AIzaSyA7DA2nxR5WvPwwL_QW5HgSaW7JxQqPeIs",
+    authDomain:"nfn-groups.firebaseapp.com",
+    projectId:"nfn-groups",
+    storageBucket:"nfn-groups.appspot.com",
+    messagingSenderId:"276039205386",
+    appId:"1:276039205386:web:cd7c5a7248f264427815f3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
 </head>
 <body>
 
@@ -121,30 +141,35 @@ We designed NFN to be user-friendly, safe, and empowering — so you can turn yo
   <input type="checkbox" id="agreeCheckbox">
   <label for="agreeCheckbox">
     I accept and agree to the 
-   <span class="terms-link" onclick="window.location.href='Terms and Condition.html'">Terms and Conditions</span>
+    <span class="terms-link" onclick="window.location.href='Terms and Condition.html'">Terms and Conditions</span>
   </label>
 </div>
 
 <button id="continueBtn" class="btn" disabled>Continue</button>
 
 <script>
-  // Check if user has already agreed
-  if(localStorage.getItem('nfnAgreed') === 'true'){
+const checkbox = document.getElementById('agreeCheckbox');
+const continueBtn = document.getElementById('continueBtn');
+
+// Enable button when checkbox is checked
+checkbox.addEventListener('change', function(){
+  continueBtn.disabled = !this.checked;
+});
+
+// On continue, save agreement to Firestore ONLY
+continueBtn.addEventListener('click', async function(){
+  try {
+    // Save to a fixed document (or generate unique ID if you want multiple users)
+    await db.collection('agreements').add({
+      agreedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    // Continue to splash
     window.location.href = 'Splash Screen.html';
+  } catch(err) {
+    console.error(err);
+    alert("Error saving agreement");
   }
-
-  const checkbox = document.getElementById('agreeCheckbox');
-  const continueBtn = document.getElementById('continueBtn');
-
-  // Enable button when checkbox is checked
-  checkbox.addEventListener('change', function(){
-    continueBtn.disabled = !this.checked;
-  });
-
-  continueBtn.addEventListener('click', function(){
-    localStorage.setItem('nfnAgreed', 'true');
-    window.location.href = 'Splash Screen.html';
-  });
+});
 </script>
 
 </body>
