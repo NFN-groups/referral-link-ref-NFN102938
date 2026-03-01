@@ -8,108 +8,7 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-  /* === TASK PAGE STYLES === */
-#task .phone {
-  width:390px;
-  max-width:95%;
-  border-radius:28px;
-  overflow:hidden;
-  box-shadow:0 20px 40px rgba(5,5,15,0.6);
-  background:radial-gradient(1200px 600px at 10% 10%,rgba(255,255,255,0.03),transparent 5%),
-             radial-gradient(1000px 400px at 90% 30%,rgba(255,255,255,0.02),transparent 5%),
-             linear-gradient(180deg,#0b0420,#2f1b4b);
-  position:relative;
-}
-
-#task .topbar {
-  height:54px;
-  padding:10px 14px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-#task .back {
-  width:36px;height:36px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,0.06);
-  color:#fff;font-weight:600;
-}
-
-#task .status-card {
-  margin:4px 14px 10px;
-  background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.06));
-  border-radius:18px;
-  padding:26px 18px 18px;
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-  backdrop-filter:blur(3px);
-  box-shadow:0 6px 18px rgba(2,2,8,0.5);
-}
-
-#task .lv {font-weight:700;font-size:24px;letter-spacing:0.8px;margin-bottom:14px;top:-10px;position:relative;}
-#task .status-text {font-size:15px;line-height:1.8;}
-
-#task .content {
-  background:linear-gradient(180deg,#ffffff,#faf9ff);
-  border-top-left-radius:24px;
-  border-top-right-radius:24px;
-  margin-top:14px;
-  padding:18px;
-  height:600px;
-  overflow-y:auto;
-  scrollbar-width:thin;
-}
-
-#task .task-list {
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  padding-bottom:30px;
-}
-
-#task .task {
-  background:#fff;
-  border-radius:14px;
-  padding:12px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  box-shadow:0 6px 14px rgba(28,20,60,0.06);
-  border:1px solid rgba(20,20,40,0.03);
-}
-
-#task .thumb {
-  width:84px;height:68px;border-radius:8px;
-  background-size:cover;background-position:center;
-  position:relative;flex-shrink:0;overflow:hidden;
-}
-
-#task .play-circle {
-  position:absolute;left:10px;top:10px;
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(255,255,255,0.85);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
-}
-
-#task .task-body {
-  display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;
-}
-
-#task .task-left {display:flex;flex-direction:column;gap:6px;}
-#task .badge {
-  display:inline-block;padding:6px 10px;border-radius:12px;
-  background:linear-gradient(180deg,#fff6df,#f7d98b);
-  color:#6a4a0e;font-weight:700;font-size:12px;width:46px;text-align:center;
-}
-
-#task .label {font-weight:600;color:#222;font-size:15px;}
-#task .price {text-align:right;min-width:110px;}
-#task .price .currency {display:block;font-size:13px;color:#8a8a8f;font-weight:600;}
-#task .price .amount {font-weight:700;font-size:18px;color:#f7c14b;margin-top:6px;}
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
   body {margin:0; font-family:Arial,sans-serif; background:#fff;}
   .screen {max-width:420px; margin:0 auto; height:100vh; display:flex; flex-direction:column; border:1px solid #ccc;}
   .content {flex:1; overflow-y:auto; background:#f9f9f9; padding-bottom:60px;}
@@ -333,31 +232,7 @@ function goToDownloadApp() {
     </div>
 </div>
 </div>
-
-   <!-- Task Tab -->
-<div id="task" class="tab" style="display:none;">
-  <div class="phone">
-    <div class="topbar">
-      <div class="back" onclick="goBackFromTask()">
-        <svg width="18" height="14" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="status-card">
-      <div class="lv">Lv1</div>
-      <div class="status-text">Tasks remaining today: <strong id="tasksRemaining">10</strong></div>
-      <div class="status-text">Tasks completed today: <strong id="tasksCompleted">0</strong></div>
-    </div>
-
-    <div class="content">
-      <div class="task-list" id="taskList"></div>
-    </div>
-  </div>
-</div>
-
-      
+   
      <!-- Level Tab -->
     <div id="level" class="tab" style="display:none;">
 
@@ -520,129 +395,7 @@ function goToDownloadApp() {
 <div class="swipe-hint">Swipe right to see next level, swipe left to go back</div>
 
     
-     <!-- Company Intro -->
-    <div id="companyIntro" class="page">
-
-  <!-- Back Arrow -->
-  <div class="back" onclick="backToHome()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6"
-        stroke="white"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-    </svg>
-  </div>
-
-  <h2>NFN Group - Company Profile</h2>
-      <p><b>NFN Group is one of the world’s most innovative advertising and communications companies.</b></p>
-      <p>We specialize in advertising, public relations, digital marketing, brand image, and global communication strategies. Our influence spans multiple industries, from entertainment to technology, ensuring businesses grow with creativity and impact.</p>
-      <p>NFN partners with global film and media companies to deliver video promotions and marketing campaigns worldwide. With the rise of 5G and the digital economy, NFN empowers individuals and businesses with smarter, faster, and more inclusive solutions.</p>
-      <p>We believe in innovation, creativity, and financial empowerment, helping individuals in Nigeria and across the globe access opportunities for stable income and long-term growth.</p>
-    </div>
-
-    <div id="companyActivities" class="page">
-
-  <!-- Back Arrow -->
-  <div class="back" onclick="backToHome()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6"
-        stroke="white"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-    </svg>
-  </div>
-
-  <h2>NFN Group - Company Activities</h2>
-    <p>Stay up-to-date with our latest achievements and corporate milestones.</p>
-
-  <div class="activity-card">
-    <h3>🎬 Partnership with Global Film Media</h3>
-    <p>NFN has partnered with leading entertainment brands to boost digital advertising visibility across Africa.</p>
-    <small>📅 October 20, 2025</small>
-  </div>
-
-  <div class="activity-card">
-    <h3>🌍 Regional Expansion</h3>
-    <p>We have expanded our operational offices to Nigeria, Ghana, and Kenya — bringing closer access to our partners and users.</p>
-    <small>📅 September 12, 2025</small>
-  </div>
-
-  <div class="activity-card">
-    <h3>💡 Marketing Innovation Awards</h3>
-    <p>NFN received the 2025 Global Innovation Award for outstanding creativity in video advertising campaigns.</p>
-    <small>📅 August 3, 2025</small>
-  </div>
-
-  <div class="activity-card">
-    <h3>🤝 Community Empowerment Program</h3>
-    <p>Our “Empower Africa” project has helped over 1,000 young people learn digital marketing and earn sustainable income.</p>
-    <small>📅 July 15, 2025</small>
-  </div>
-</div>
-    
-   <div id="memberBenefits" class="page">
-
-  <!-- Back Arrow -->
-  <div class="back" onclick="backToHome()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6"
-        stroke="white"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-    </svg>
-  </div>
-
-  <h2>NFN Group - Member Benefits</h2>
-  <div class="activity-card">
-    <h3>💰 Daily Missions & Rewards</h3>
-    <p>Complete daily tasks to earn rewards and increase your monthly income.</p>
-  </div>
-  <div class="activity-card">
-    <h3>🎓 Skill Programs</h3>
-    <p>Access free training in digital marketing and advertising to enhance your career.</p>
-  </div>
-  <div class="activity-card">
-    <h3>🌐 VIP Community Access</h3>
-    <p>Join exclusive groups, network with professionals, and get mentorship.</p>
-  </div>
-  <div class="activity-card">
-    <h3>🏆 Loyalty Rewards</h3>
-    <p>Earn points, badges, and higher-tier benefits for consistent engagement.</p>
-  </div>
-</div>
-
-<style>
-  #companyActivities {
-    color: #333;
-  }
- #companyActivities h2 {
-  font-size: 20px; /* smaller title */
-  white-space: nowrap; /* prevents it from breaking into another line */
-  overflow: hidden;
-  text-overflow: ellipsis; /* adds “…” if it ever gets too long */
-  text-align: center; /* optional: center the title */
-}  
-  .activity-card {
-    background: #fff;
-    margin: 12px 0;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
-  .activity-card h3 {
-    margin: 0 0 6px;
-    color: #FB8C00;
-  }
-  .activity-card small {
-    color: #777;
-    display: block;
-    margin-top: 6px;
-  }
-</style>
-
+     
 <style>
   .custom-select {
     position: relative;
@@ -751,56 +504,7 @@ function goToDownloadApp() {
   padding: 8px 18px;
   cursor: pointer;
 }
-    #companyIntro .back {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  cursor: pointer;
-}
-    #companyIntro {
-  padding-top: 70px; /* 👈 pushes text below back arrow */
-}
-    #companyIntro h2 {
-  text-align: center;
-  margin-top: 0;
-}
-    #memberBenefits .back {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  cursor: pointer;
-}
-    #memberBenefits {
-  padding-top: 70px;
-}
-    *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family: Arial, sans-serif;
-}
-
-body{
-  background:#eef6ff;
-  overflow-x:hidden;
-}
-
+   
 /* Header */
 .header{
   background:linear-gradient(135deg,#3b82f6,#22c1c3);
@@ -1187,27 +891,6 @@ body{
   <div class="header" style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
    <div class="back" id="withdrawBackBtn">&#x276E;</div>
     <h3 style="margin:0;">Withdrawal</h3>
-  </div>
-
-  <div class="withdraw-box">
-        <label>Withdrawal Balance</label>
-        <div class="withdraw-input" id="withdrawBalance"></div>
-        <label>Withdrawal Amount</label>
-        <input type="text" id="withdrawAmount" class="withdraw-input" readonly/>
-        <div class="amounts">
-         <div class="amount-btn"></div><div class="amount-btn"></div>
-          <div class="amount-btn"></div><div class="amount-btn">50,000</div><div class="amount-btn">100,000</div>
-          <div class="amount-btn">200,000</div><div class="amount-btn">500,000</div><div class="amount-btn">1,000,000</div>
-          <div class="amount-btn">2,000,000</div><div class="amount-btn">5,000,000</div><div class="amount-btn">10,000,000</div>
-          <div class="amount-btn">100,000,000</div>
-        </div>
-        <label>Withdrawal Account</label>
-        <div class="withdraw-input" id="withdrawAccount"></div>
-        <label>Withdrawal Handling Fee</label>
-        <div class="withdraw-input" id="handlingFee"></div>
-        <label>Enter your 6-digit withdrawal PIN</label>
-        <input type="password" class="withdraw-input" maxlength="6" placeholder="Enter your 6-digit withdrawal PIN  "/>
-        <button>Submit</button>
       </div>
     </div>
   </div>
@@ -1261,25 +944,6 @@ function openPage(id){
   document.getElementById(id).classList.add('active');
 }
 
-// balances (persisted)
-let stats = JSON.parse(localStorage.getItem("stats")) || {
-  todayIncome:0, monthIncome:0, revenue:0, withdrawals:0, balance:0, profit:0,
-  tasksRemaining:10, tasksCompleted:0,
-  lastReset: new Date().toDateString(),
-  lastMonth: new Date().getMonth()   // ✅ added so month resets immediately on 1st
-};
-
-// daily reset check (based on date string)
-// If stored lastReset !== today, we reset today's counters but keep monthRevenue, revenue, balance, etc.
-let today = new Date().toDateString();
-if(stats.lastReset !== today){
-  stats.lastReset = today;
-  stats.tasksRemaining = 10;
-  stats.tasksCompleted = 0;
-  stats.todayIncome = 0;
-  localStorage.setItem("stats", JSON.stringify(stats));
-}
-
 updateUI();
 
 function updateUI(){
@@ -1294,51 +958,7 @@ function updateUI(){
   localStorage.setItem("stats", JSON.stringify(stats));
 }
 
-// build 10 tasks (exactly as your layout)
-const taskList=document.getElementById("taskList");
-taskList.innerHTML = ''; // clear duplicates
-for(let i=1;i<=10;i++){
-  const card = document.createElement("div");
-  card.className = "task-card";
-  card.innerHTML = `...`;
-  taskList.appendChild(card);
-}
 
-document.querySelectorAll(".play-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    if(stats.tasksRemaining <= 0){ alert("No tasks left today!"); return; }
-    if(btn.disabled) return;
-
-    btn.disabled = true;
-    let time = 10;
-    btn.innerText = "Watching... " + time + "s";
-    const interval = setInterval(()=>{
-      time--;
-      btn.innerText = "Watching... " + time + "s";
-      if(time <= 0){
-        clearInterval(interval);
-        btn.innerText = "Completed ✔";
-        stats.todayIncome += 50;
-        stats.monthIncome += 50;
-        stats.revenue += 50;
-        stats.balance += 50;
-        stats.profit += 50;
-        stats.tasksRemaining -= 1;
-        stats.tasksCompleted += 1;
-        updateUI();
-      }
-    }, 1000);
-  });
-});
-
-// helper: show exhausted popup small fade in/out
-const exhaustedPopup = document.getElementById('exhaustedPopup');
-function showExhaustedPopup(){
-  exhaustedPopup.classList.add('show');
-  setTimeout(()=> exhaustedPopup.classList.remove('show'), 1800); // show ~1.8s then fade out
-}
-
-// loader display logic
 const loader = document.getElementById('loader');
 function updateLoaderVisibility(){
   // show loader when offline
@@ -1354,128 +974,6 @@ updateLoaderVisibility();
 window.addEventListener('online', updateLoaderVisibility);
 window.addEventListener('offline', updateLoaderVisibility);
 
-// Play buttons logic
-document.querySelectorAll(".play-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    // If offline -> show loader (which is visible) and do nothing
-    if(!navigator.onLine){
-      updateLoaderVisibility();
-      // short flash of loader, but keep it visible until online
-      return;
-    }
-
-    // If tasks remaining zero -> show small exhausted popup and prevent watching
-    if(stats.tasksRemaining <= 0){
-      showExhaustedPopup();
-      return;
-    }
-
-    // Prevent double-watching same card: if button already disabled (maybe user clicked), ignore
-    if(btn.disabled) return;
-
-    // Proceed to "play" simulation
-    btn.disabled = true;
-    let time = 10; // fixed 10 seconds (as you required)
-    // show dynamic countdown on button
-    btn.innerText = "Watching... " + time + "s";
-
-    // Use interval to count down
-    const interval = setInterval(()=>{
-      // If offline during watching => stop and revert button to Play and re-enable (do not credit)
-      if(!navigator.onLine){
-        clearInterval(interval);
-        btn.disabled = false;
-        btn.innerText = "▶ Play";
-        updateLoaderVisibility();
-        return;
-      }
-
-      time--;
-      btn.innerText = "Watching... " + time + "s";
-
-      if(time <= 0){
-        clearInterval(interval);
-        // mark completed
-        btn.innerText = "Completed ✔";
-        // ensure we do not decrement below 0
-        if(stats.tasksRemaining > 0){
-          stats.todayIncome += 50;
-          stats.monthIncome += 50;
-          stats.revenue += 50;
-          stats.balance += 50;
-          stats.profit += 50;
-          stats.tasksRemaining -= 1;
-          stats.tasksCompleted += 1;
-          updateUI();
-        } else {
-          // if another user exhausted meanwhile, ensure no negative and show exhausted popup
-          showExhaustedPopup();
-        }
-      }
-    }, 1000);
-  });
-});
-
-// Extra safety: when user stays on page and date flips to next day (midnight),
-// we check periodically (every minute) and reset daily + monthly counters if needed.
-setInterval(()=>{
-  const now = new Date();
-  const nowDate = now.toDateString();
-
-  // Daily reset
-  if (stats.lastReset !== nowDate) {
-    stats.lastReset = nowDate;
-    stats.tasksRemaining = 10;
-    stats.tasksCompleted = 0;
-    stats.todayIncome = 0;
-  }
-
-  // Monthly reset
-  if (stats.lastMonth !== now.getMonth()) {
-    stats.lastMonth = now.getMonth();
-    stats.monthIncome = 0;
-  }
-
-  updateUI();
-}, 60000); // every 1 minute
- 
-const withdrawSubmitBtn = document.querySelector('#withdrawPage button');
-const withdrawPinInput = document.querySelector('#withdrawPage input[type="password"]');
-
-withdrawSubmitBtn.addEventListener('click', () => {
-  const pin = withdrawPinInput.value.trim();
-  const amountText = document.getElementById('withdrawAmount').value.trim();
-  const amount = parseInt(amountText.replace(/,/g, '')) || 0;
-
-  // Check if amount is selected
-  if (!amount) {
-    alert("Please select a withdrawal amount first.");
-    return;
-  }
-
-  // Check for valid PIN
-  if (pin.length !== 6) {
-    alert("Please enter a valid 6-digit PIN.");
-    return;
-  }
-
-  const storedPin = localStorage.getItem("withdrawPin");
-  if (!storedPin) {
-    alert("No withdrawal PIN set. Please set your PIN in Personal Information first.");
-    return;
-  }
-
-  // Validate PIN match
-  if (pin === storedPin) {
-    alert(`Withdrawal of NGN ${amount.toLocaleString()} successful!`);
-    // ✅ You can also deduct the amount from balance here if desired:
-    // stats.balance -= amount;
-    // stats.withdrawals += amount;
-    // updateUI();
-  } else {
-    alert("Incorrect PIN!");
-  }
-});
 </script>
   <!-- Logout confirmation popup -->
 <div id="logoutPopup" class="popup-overlay">
@@ -1499,7 +997,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("userEmail").innerText = "Guest";
     document.getElementById("userLevel").innerText = "Lv1";
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "Register.html";
     };
   };
 });
