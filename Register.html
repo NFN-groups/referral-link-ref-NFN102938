@@ -285,7 +285,6 @@
 <body>
     
   <div id="snow"></div>
-  
   <div class="login">
   <div class="login">    
 <div class="logo-container">
@@ -300,7 +299,13 @@
     <span></span>
 </div>
   
-    <div class="container" id="registerPage">    
+    <div class="container" id="registerPage"> 
+      <div style="text-align: right; margin-bottom: 10px;">
+  <a href="javascript:void(0)" id="regGuideLink" 
+     style="color:#0072ff; font-weight:600; text-decoration:underline; cursor:pointer;">
+    Registration / log in  Manual Guide
+  </a>
+</div>
       <form id="registerForm">    
         <div class="input-box">    
           <i class="fa fa-envelope"></i>    
@@ -673,6 +678,9 @@ const storedRef = localStorage.getItem("referredBy");
 if (storedRef) {
   console.log("User was referred by:", storedRef);
 }
+    document.getElementById("regGuideLink").addEventListener("click", () => {
+    window.location.href = "Registration User Guide Manual .html";
+});
 </script>
 </body>    
 </html>
